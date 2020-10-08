@@ -71,4 +71,14 @@ module.exports = {
         getGasPrice,
         getLatestBlock,
     },
+    methods: {
+        GET: [
+            {
+                method: 'createAccount',
+                description: 'Returns ethereum keypairs (pub/priv keys)',
+                endpoint: 'api/v1/ethereum/create-account',
+            },
+        ],
+        POST: [],
+    },
 };

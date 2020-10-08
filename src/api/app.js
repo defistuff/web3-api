@@ -8,7 +8,7 @@ const app = express();
 app.use(bodyParser.json({ type: 'application/json' }));
 
 app.get('/api/v1', async (req, res) => {
-    res.status(200).send('DefiStuff API');
+    res.status(200).send({ api: 'DefiStuff API', modules: utils.getModules() });
 });
 
 /**
