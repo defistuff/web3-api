@@ -1,0 +1,22 @@
+{
+    "name": "defistuff-web3",
+    "version": "1.0.0",
+    "description": "defistuff web3 api",
+    "main": "index.js",
+    "author": "Luis Acerv",
+    "license": "MIT",
+    "private": true,
+    "dependencies": {
+        "body-parser": "^1.19.0",
+        "ethereumjs-tx": "^2.1.2",
+        "ethereumjs-wallet": "^1.0.1",
+        "express": "^4.17.1",
+        "nodemon": "^2.0.4",
+        "web3": "^1.3.0",
+        "yargs": "^16.0.3"
+    },
+    "scripts": {
+        "dev": "nodemon src/api/app.js --port=50501 --httpProvider=http://localhost:7545",
+        "start": "node src/api/app.js"
+    }
+}
