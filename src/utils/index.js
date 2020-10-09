@@ -12,7 +12,6 @@ function getModules() {
     const _path = path.resolve(__dirname, '..');
     const modules = readdirSync(_path + '/modules').map(function (dirContent) {
         const module = require(_path + '/modules/' + dirContent);
-        console.log(module);
         return {
             module: dirContent,
             methods: module.methods,

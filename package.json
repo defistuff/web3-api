@@ -8,6 +8,7 @@
     "private": true,
     "dependencies": {
         "body-parser": "^1.19.0",
+        "cors": "^2.8.5",
         "ethereumjs-tx": "^2.1.2",
         "ethereumjs-wallet": "^1.0.1",
         "express": "^4.17.1",

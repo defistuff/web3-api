@@ -9,6 +9,15 @@ async function createAccount() {
     return await web3.eth.accounts.create();
 }
 
+async function getBalance(address) {
+    let isAddress = await _validateAddress(address);
+    if (isAddress) {
+        const balance = await web3.eth.getBalance(address);
+        return { address, balance, symbol: 'eth', units: 'wei' };
+    }
+    return { error: 'Invalid address' };
+}
+
 async function sendRawTransaction({
     addressFrom,
     privKey,
@@ -47,20 +56,14 @@ async function getLatestBlock() {
     return await web3.eth.getBlock(blockNumber);
 }
 
-(async function () {
-    // console.log(await getLatestBlock());
-    // const body = {
-    //     addressFrom: '0xb40155Feb32c4d4bd1966A6c2A3C77D7CADB2e5b',
-    //     privKey:
-    //         '0aa39ab29271e424d3ed705142fca215e07fb6e9b1afe8bdb9d9085c08a77b68',
-    //     addrressTo: '0xE1961fe0C58bE06BCaB5C58A9066751Ca30344f5',
-    //     amount: '0.5',
-    //     callback: (resp) => console.log(resp),
-    // };
-    // await sendRawTransaction(body);
-})();
+async function getTransaction(hash) {
+    return await web3.eth.getTransaction(hash);
+}
 
-//console.log('0aa39ab29271e424d3ed705142fca215e07fb6e9b1afe8bdb9d9085c08a77b68'.length);
+async function _validateAddress(address) {
+    return await web3.utils.isAddress(address);
+}
+
 
 module.exports = {
     POST: {
@@ -68,8 +71,10 @@ module.exports = {
     },
     GET: {
         createAccount,
+        getBalance,
         getGasPrice,
         getLatestBlock,
+        getTransaction,
     },
     methods: {
         GET: [
@@ -77,6 +82,23 @@ module.exports = {
                 method: 'createAccount',
                 description: 'Returns ethereum keypairs (pub/priv keys)',
                 endpoint: 'api/v1/ethereum/create-account',
+            },
+            {
+                method: 'getBalance',
+                description: 'Returns the given address balance',
+                endpoint:
+                    'api/v1/ethereum/get-balance?address=0x00000000000000000000000000000000000',
+            },
+            {
+                method: 'getTransaction',
+                description: 'Returns transaction info',
+                endpoint:
+                    'api/v1/ethereum/get-transaction?tx=0x000000000000000000000000000000000000000',
+            },
+            {
+                method: 'getLatestBlock',
+                description: 'Returns the latest block',
+                endpoint: 'api/v1/ethereum/get-latest-block',
             },
         ],
         POST: [],
