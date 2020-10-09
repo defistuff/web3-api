@@ -18,7 +18,7 @@
         "yargs": "^16.0.3"
     },
     "scripts": {
-        "dev": "nodemon src/api/app.js --port=50501 --httpProvider=http://46.101.178.202:8545 --chain=ropsten",
+        "dev": "nodemon src/api/app.js --port=50501 --httpProvider=http://localhost:7545 --chain=ropsten",
         "start": "node src/api/app.js"
     }
 }
