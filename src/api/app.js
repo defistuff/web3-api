@@ -80,7 +80,6 @@ app.post('/api/v1/:module/:method', async (req, res) => {
     }
     try {
         f(req.body, (r) => {
-            console.log(r)
             res.status(200).send(r)
         });
     } catch (e) {
