@@ -54,5 +54,5 @@ yarn dev
 For custom setup run (you can use infura as a provider, or any other provider you wish):
 
 ```bash
-yarn start --port=<curtom-port> --httpProvider=<custom-provider>
+yarn start --port=<custom-port> --httpProvider=<custom-provider>
 ```
