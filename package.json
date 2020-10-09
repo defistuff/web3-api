@@ -1,6 +1,6 @@
 {
     "name": "defistuff-web3",
-    "version": "1.0.0-alpha",
+    "version": "1.0.1-alpha",
     "description": "defistuff web3 api",
     "main": "index.js",
     "author": "Luis Acerv",
