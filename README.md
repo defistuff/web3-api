@@ -69,3 +69,11 @@ For custom setup run (you can use infura as a provider, or any other provider yo
 ```bash
 yarn start --port=<custom-port> --httpProvider=<custom-provider> --chain=<chain-name>
 ```
+
+**How to contribute**
+Create a new branch
+```bash
+feature/my-feature or fix/my-fix
+```
+
+And create a pull request
