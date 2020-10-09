@@ -5,7 +5,7 @@ For API documentation run de project and at /api/v1 you will get the available m
 ```json
 {
     "api": "DefiStuff API",
-    "version": "1.0.0",
+    "version": "1.0.0-alpha",
     "modules": [
         {
             "module": "ethereum",
@@ -32,7 +32,19 @@ For API documentation run de project and at /api/v1 you will get the available m
                         "endpoint": "api/v1/ethereum/get-latest-block"
                     }
                 ],
-                "POST": []
+                "POST": [
+                    {
+                        "method": "sendRawTransaction",
+                        "description": "Transfer ether from one account to another",
+                        "endpoint": "api/v1/ethereum/send-raw-transaction",
+                        "requestBody": {
+                            "addressFrom": "0x37EbeD3178e9C3b9087184F44A937C562e9770d2",
+                            "privKey": "0xee0f1ce4e615a834cfb9d531b89171ecdb1f7687e503f0402a271f4d3fdd715e",
+                            "addressTo": "0x1d9f33CDFE6dF18de9dBb57DB879a88faF3C1aD9",
+                            "amount": "0.5"
+                        }
+                    }
+                ]
             }
         }
     ]
@@ -41,6 +53,7 @@ For API documentation run de project and at /api/v1 you will get the available m
 
 **Usage**
 Install dependencies:
+
 ```bash
 yarn install
 ```
@@ -54,5 +67,5 @@ yarn dev
 For custom setup run (you can use infura as a provider, or any other provider you wish):
 
 ```bash
-yarn start --port=<custom-port> --httpProvider=<custom-provider>
+yarn start --port=<custom-port> --httpProvider=<custom-provider> --chain=<chain-name>
 ```

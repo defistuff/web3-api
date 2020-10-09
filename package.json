@@ -8,6 +8,7 @@
     "private": true,
     "dependencies": {
         "body-parser": "^1.19.0",
+        "colors": "^1.4.0",
         "cors": "^2.8.5",
         "ethereumjs-tx": "^2.1.2",
         "ethereumjs-wallet": "^1.0.1",
@@ -17,7 +18,7 @@
         "yargs": "^16.0.3"
     },
     "scripts": {
-        "dev": "nodemon src/api/app.js --port=50501 --httpProvider=https://kovan.infura.io/v3/ff3c965b565c4312aa9dcb71537a4fe3",
+        "dev": "nodemon src/api/app.js --port=50501 --httpProvider=http://localhost:7545 --chain=ropsten",
         "start": "node src/api/app.js"
     }
 }

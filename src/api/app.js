@@ -2,6 +2,9 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 
+const { requestLogger, errorHandler } = require('./middlewares');
+const { validateRequest } = require('./schemaValidator');
+
 const config = require('../config');
 const utils = require('../utils');
 
@@ -9,6 +12,7 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.json({ type: 'application/json' }));
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(requestLogger);
 
 app.get('/api/v1', async (req, res) => {
     const pjson = require('../../package.json');
@@ -58,6 +62,32 @@ app.get('/api/v1/:module/:method', async (req, res) => {
         res.status(500).send({ error: error });
     }
 });
+
+app.post('/api/v1/:module/:method', async (req, res) => {
+    const schema = utils.camelToSnakeCase(req.params.method);
+    const validation = validateRequest(req.body, schema);
+
+    if (!validation.isValid) {
+        return res.status(400).send({ error: 'malformed request' });
+    }
+
+    const module = require(`../modules/${req.params.module}`);
+    const f = module.POST[utils.camelCase(req.params.method)];
+
+    // @notice Check if method exists, if not returns a 404 response
+    if (!f) {
+        return res.status(404).send({ error: 'module not found' });
+    }
+    try {
+        f(req.body, (r) => {
+            res.status(200).send(r)
+        });
+    } catch (e) {
+        res.status(500).send({ error: e });
+    }
+});
+
+app.use(errorHandler);
 
 const PORT = config.port;
 app.listen(PORT, () => {
