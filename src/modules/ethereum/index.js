@@ -18,14 +18,11 @@ async function getBalance(address) {
     return { error: 'Invalid address' };
 }
 
-async function sendRawTransaction({
-    addressFrom,
-    privKey,
-    addressTo,
-    amount,
-    callback,
-}) {
-    const privateKey = Buffer.from(privKey, 'hex');
+async function sendRawTransaction(
+    { addressFrom, privKey, addressTo, amount },
+    callback
+) {
+    const privateKey = Buffer.from(privKey.substr(2, privKey.length), 'hex');
     const { gasLimit, gasUsed } = await getLatestBlock();
     const txData = {
         gasLimit: web3.utils.toHex(gasLimit),
@@ -38,12 +35,19 @@ async function sendRawTransaction({
         const newNonce = web3.utils.toHex(txCount);
         const transaction = new Tx(
             { ...txData, nonce: newNonce },
-            { chain: 'kovan' }
+            { chain: config.chain }
         );
 
-        transaction.sign(privateKey);
-        const serializedTx = transaction.serialize().toString('hex');
-        callback(await web3.eth.sendSignedTransaction('0x' + serializedTx));
+        try {
+            transaction.sign(privateKey);
+            const serializedTx = transaction.serialize().toString('hex');
+            const resp = await web3.eth.sendSignedTransaction(
+                '0x' + serializedTx
+            );
+            callback(resp);
+        } catch (e) {
+            callback({ error: e.toString() });
+        }
     });
 }
 
@@ -60,10 +64,9 @@ async function getTransaction(hash) {
     return await web3.eth.getTransaction(hash);
 }
 
-async function _validateAddress(address) {
-    return await web3.utils.isAddress(address);
+function _validateAddress(address) {
+    return web3.utils.isAddress(address);
 }
-
 
 module.exports = {
     POST: {
@@ -75,6 +78,9 @@ module.exports = {
         getGasPrice,
         getLatestBlock,
         getTransaction,
+    },
+    misc: {
+        _validateAddress,
     },
     methods: {
         GET: [
@@ -101,6 +107,19 @@ module.exports = {
                 endpoint: 'api/v1/ethereum/get-latest-block',
             },
         ],
-        POST: [],
+        POST: [
+            {
+                method: 'sendRawTransaction',
+                description: 'Transfer ether from one account to another',
+                endpoint: 'api/v1/ethereum/send-raw-transaction',
+                requestBody: {
+                    addressFrom: '0x37EbeD3178e9C3b9087184F44A937C562e9770d2',
+                    privKey:
+                        '0xee0f1ce4e615a834cfb9d531b89171ecdb1f7687e503f0402a271f4d3fdd715e',
+                    addressTo: '0x1d9f33CDFE6dF18de9dBb57DB879a88faF3C1aD9',
+                    amount: '0.5',
+                },
+            },
+        ],
     },
 };

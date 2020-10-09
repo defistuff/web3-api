@@ -4,4 +4,5 @@ module.exports = {
     httpProvider: argv.httpProvider,
     wsProvider: argv.wsProvider,
     port: argv.port || 50501,
+    chain: argv.chain,
 };

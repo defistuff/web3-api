@@ -21,9 +21,15 @@ function getModules() {
     return modules;
 }
 
-console.log(getModules());
+function camelToSnakeCase(str) {
+    const camel = camelCase(str);
+    return camel
+        .replace(/[A-Z]/g, (letter) => `_${letter.toLowerCase()}`)
+        .toUpperCase();
+}
 
 module.exports = {
     camelCase,
     getModules,
+    camelToSnakeCase,
 };
